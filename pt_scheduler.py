@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 from pymongo import MongoClient
 from pprint import pprint
 from datetime import datetime
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException, WebDriverException, NoSuchElementException
 
 import pt_config
 import pt_db
