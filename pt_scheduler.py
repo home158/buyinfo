@@ -41,6 +41,22 @@ def add_url_to_list(urls_json, new_url):
 
 
 
+def handle_selenium_errors(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except TimeoutException as timeout_err:
+            print(f"Timeout occurred while loading page: {timeout_err}")
+        except NoSuchElementException as no_elem_err:
+            print(f"Element not found: {no_elem_err}")
+        except WebDriverException as driver_err:
+            print(f"WebDriver error occurred: {driver_err}")
+        except ConnectionError as conn_err:
+            print(f"Network connection error occurred: {conn_err}")
+        except Exception as err:
+            print(f"An unexpected error occurred: {err}")
+    return wrapper
+
 
 
 
@@ -83,6 +99,7 @@ def take_screenshot(driver, file_name):
     file_path = os.path.join(screenshots_dir, f"{file_name}.png")
     driver.save_screenshot(file_path)
     print(f"截图已保存到: {file_path}")
+@handle_selenium_errors
 def fetch_product_attributes(urls_list = None,user_id = None):
     # 首先检查网络连接是否可用
     if not is_internet_available():
