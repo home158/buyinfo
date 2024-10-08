@@ -8,7 +8,6 @@ from pymongo import MongoClient
 from pprint import pprint
 from datetime import datetime
 from selenium.common.exceptions import NoSuchElementException
-import requests
 
 import pt_config
 import pt_db
@@ -82,14 +81,6 @@ def get_element_by_classname(driver,classname):
     # 执行脚本并返回结果
     price = driver.execute_script(script,classname)
     return price
-def is_internet_available():
-    """测试网络是否可用"""
-    try:
-        # 尝试访问一个稳定的外部网站
-        response = requests.get("https://www.google.com", timeout=5)
-        return response.status_code == 200
-    except requests.ConnectionError:
-        return False
 def take_screenshot(driver, file_name):
     """保存当前页面截图"""
     screenshots_dir = 'screenshots'
@@ -101,10 +92,6 @@ def take_screenshot(driver, file_name):
     print(f"截图已保存到: {file_path}")
 @handle_selenium_errors
 def fetch_product_attributes(urls_list = None,user_id = None):
-    # 首先检查网络连接是否可用
-    if not is_internet_available():
-        print("网络不可用，请检查连接后重试。")
-        return 
     chromedriver_executable_path = pt_config.CHROMEDRIVER_EXECUTABLE_PATH
 
     # 设置无头模式
