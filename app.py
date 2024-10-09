@@ -8,9 +8,6 @@ import pt_config
 import pt_scheduler
 app = Flask(__name__)
 @app.route("/")
-def hello():
-    pt_bot.send("Good",1418302563)
-    return "Hello, World!"
 
 def run_web_app():
     port = int(os.environ.get("PORT", "8443"))
